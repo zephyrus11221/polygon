@@ -30,29 +30,7 @@ def add_box( points, x, y, z, width, height, depth ):
     x1 = x + width
     y1 = y - height
     z1 = z - depth
-    '''
-    add_edge(points, x, y, z, x1, y, z)
-    add_edge(points, x, y, z, x, y1, z)
-    add_edge(points, x, y, z, x1, y1, z)
-    add_edge(points, x, y, z, x, y, z1)
 
-    add_edge(points, x1, y1, z, x1, y1, z1)
-    add_edge(points, x1, y1, z, x1, y, z)
-    add_edge(points, x1, y1, z, x, y1, z)
-    add_edge(points, x1, y1, z, x, y1, z1)
-
-    add_edge(points, x, y1, z1, x, y, z)
-    add_edge(points, x, y1, z1, x, y1, z)
-    add_edge(points, x, y1, z1, x1, y1, z1)
-    add_edge(points, x, y1, z1, x, y, z1)
-
-    add_edge(points, x1, y, z1, x1, y, z)
-    add_edge(points, x1, y, z1, x1, y1, z1)
-    add_edge(points, x1, y, z1, x, y, z)
-    add_edge(points, x1, y, z1, x, y, z1)
-    add_edge(points, x1, y, z1, x1, y1, z)
-    add_edge(points, x1, y, z1, x, y1, z1)
-    '''
     #front
     add_polygon(points,
                 x, y, z,
@@ -117,12 +95,12 @@ def add_sphere( poly, cx, cy, cz, r, step ):
     points = generate_sphere(cx, cy, cz, r, step)
     num_steps = int(1/step+0.1)
     
-    lat_start = 0
-    lat_stop = num_steps
+    lat_start = 2
+    lat_stop = num_steps-(num_steps-3)
     longt_start = 0
     longt_stop = num_steps
-    '''
     num_steps+= 1
+    '''
     for lat in range(lat_start, lat_stop):
         for longt in range(longt_start, longt_stop+1):
             index = lat * num_steps + longt
@@ -134,14 +112,19 @@ def add_sphere( poly, cx, cy, cz, r, step ):
                      points[index][1]+1,
                      points[index][2]+1 )
     '''
+    print len(points)
     for lat in range(lat_start, lat_stop):
-        for longt in range(longt_start, longt_stop):
-            index = lat*num_steps+longt
+        for longt in range(longt_start, longt_stop+1):
+            index = lat*num_steps+longt-1
             print index
+            index1 = index+num_steps
+            if(lat_stop*longt_stop<index1):
+                index1 -= (lat_stop*longt_stop)
+            print index1
             add_polygon(poly,
                         points[index][0], points[index][1], points[index][2],
                         points[index+1][0], points[index+1][1], points[index+1][2],
-                        points[index+num_steps][0], points[index+num_steps][1], points[index+num_steps][2])
+                        points[index1][0], points[index1][1], points[index1][2])
 
             
 def generate_sphere( cx, cy, cz, r, step ):
