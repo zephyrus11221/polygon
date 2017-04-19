@@ -90,7 +90,50 @@ def add_box( points, x, y, z, width, height, depth ):
                 x1, y1, z,
                 x1, y1, z1,
                 x, y1, z1)
-    
+'''
+def generate_sphere(cx, cy, cz, r):
+    pts = []
+
+    qual = 50
+    step = 1/float(qual)
+
+    rot = 0.0
+    while rot < 1.01:
+        circ = 0.0
+        while circ < 1.01:
+            point = []
+            point.append(r * cos(2 * pi * circ) + cx)
+            point.append(r * sin(2 * pi * circ) * cos(2 * pi * rot) + cy)
+            point.append(r * sin(2 * pi * circ) * cos(2 * pi * rot) + cz)
+            point.append(1)
+
+            pts.append(point)
+
+            circ += step
+        rot += step
+
+    #points now has all the significant points                                                                                                                                      
+    plen = len(pts)
+    q1 = qual + 1
+    polys = []
+    for i in range(0, q1):
+        polys = add_polygon(polys, pts[i*q1], pts[(i*q1)+1], pts[(((i+1)*q1)+1) % plen])
+        for j in range(1, q1-1):
+            polys = add_polygon(polys, pts[(i*q1)+j], pts[(i*q1)+j+1], pts[(((i+1)*q1)+j) % plen])
+            polys = add_polygon(polys, pts[(i*q1)+j+1], pts[(((i+1)*q1)+j+1) % plen], pts[(((i+1)*q1)+j) % plen])
+        polys = add_polygon(polys, pts[(i*q1)+q1-1], pts[(((i+1)*q1)+q1-2) % plen], pts[(i*q1)+q1-2])
+
+    return polys
+
+def add_sphere(matrix, x, y, z, r):
+    pts = generate_sphere(x, y, z, r)
+    i = 0
+    while i < len(pts):
+        matrix = add_polygon(matrix, pts[i], pts[i+1], pts[i+2])
+        i += 3
+    return matrix
+
+'''
 def add_sphere( poly, cx, cy, cz, r, step ):
     points = generate_sphere(cx, cy, cz, r, step)
     num_steps = int(1/step+0.1)
@@ -130,6 +173,14 @@ def add_sphere( poly, cx, cy, cz, r, step ):
         for longt in range(longt_start, longt_stop+1):
             index = lat*num_steps+longt
             index1 = index+num_steps
+            add_polygon(poly,
+                        points[index][0],points[index][1], points[index][2],
+                        points[(index+1)%plen][0],points[(index+1)%plen][1], points[(index+1)%plen][2],
+                        points[index1%plen][0],points[index1%plen][1], points[index1%plen][2])
+            add_polygon(poly,
+                        points[(index+1)%plen][0],points[(index+1)%plen][1], points[(index+1)%plen][2],
+                        points[(index1+1)%plen][0],points[(index1+1)%plen][1], points[(index1+1)%plen][2],
+                        points[index1%plen][0],points[index1%plen][1], points[index1%plen][2])
     for i in range(10):
         print points[1+i*11]
 
