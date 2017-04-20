@@ -17,17 +17,46 @@ transform = new_matrix()
 '''
 parse_file( 'script', edges, transform, screen, color )
 '''
-'''
-add_sphere(edges,0,0,0, 150, .1)
-add_sphere(edges,0,0,0, 150, .05)
-'''
 
-add_torus(edges, 0, 0, 0, 50, 200, .1)
+for i in range(4):
+    edges = []
+    add_sphere(edges, 0, 0, 0, 150, .1/(8-i*2+1))
+    color = [20+i*10, i*40, i*60]
+    matrix_mult(make_rotY(math.pi/2), edges)
+    matrix_mult(make_translate(250, 250, 0), edges)
+    draw_polygons(edges, screen, color)
 
-matrix_mult(make_rotX(math.pi/4), edges)
-matrix_mult(make_rotY(math.pi/4), edges)
-matrix_mult(make_translate(250, 250, 0), edges)
+for i in range(4):
+    edges = []
+    add_sphere(edges, 0, 0, 0, 50, .3/(8-i*2+1))
+    color = [20+i*10, 0, i*60]
+    matrix_mult(make_rotY(math.pi/2), edges)
+    matrix_mult(make_translate(50, 50, 0), edges)
+    draw_polygons(edges, screen, color)
 
-draw_polygons(edges, screen, color)
+for i in range(4):
+    edges = []
+    add_sphere(edges, 0, 0, 0, 50, .3/(8-i*2+1))
+    color = [20+i*20, i*40, 0]
+    matrix_mult(make_rotY(math.pi/2), edges)
+    matrix_mult(make_translate(450, 50, 0), edges)
+    draw_polygons(edges, screen, color)
+
+for i in range(4):
+    edges = []
+    add_sphere(edges, 0, 0, 0, 50, .3/(8-i*2+1))
+    color = [20+i*55, 0, i*30]
+    matrix_mult(make_rotY(math.pi/2), edges)
+    matrix_mult(make_translate(50, 450, 0), edges)
+    draw_polygons(edges, screen, color)
+
+for i in range(4):
+    edges = []
+    add_sphere(edges, 0, 0, 0, 50, .3/(8-i*2+1))
+    color = [80, i*60, i*30]
+    matrix_mult(make_rotY(math.pi/2), edges)
+    matrix_mult(make_translate(450, 450, 0), edges)
+    draw_polygons(edges, screen, color)
+
 
 display(screen)
