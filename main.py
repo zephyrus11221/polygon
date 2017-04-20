@@ -58,5 +58,16 @@ for i in range(4):
     matrix_mult(make_translate(450, 450, 0), edges)
     draw_polygons(edges, screen, color)
 
+for i in range(4):
+    edges = []
+    add_torus(edges, 0, 0, 0, 25, 200, .3/(8-i+1))
+    color = [240-i*60, 0, 200-i*30]
+    matrix_mult(make_rotX(math.pi/2), edges)
+    matrix_mult(make_translate(250, 250, 0), edges)
+    draw_polygons(edges, screen, color)
+
+
+
+
 
 display(screen)

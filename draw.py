@@ -187,8 +187,7 @@ def add_torus( poly, cx, cy, cz, r0, r1, step ):
     for lat in range(lat_start, lat_stop):
         for longt in range(longt_start, longt_stop):
             index = lat*numsteps+longt
-            print index
-            print index+numsteps
+
             add_polygon(poly,
                         points[index][0], points[index][1], points[index][2],
                         points[(index+1)%plen][0], points[(index+1)%plen][1], points[(index+1)%plen][2],
