@@ -17,9 +17,16 @@ transform = new_matrix()
 '''
 parse_file( 'script', edges, transform, screen, color )
 '''
+'''
+add_sphere(edges,0,0,0, 150, .1)
+add_sphere(edges,0,0,0, 150, .05)
+'''
 
-add_sphere(edges, 250, 250, 0, 150, .1)
-matrix_mult(make_rotY(math.pi/2), edges)
+add_torus(edges, 0, 0, 0, 50, 200, .1)
+
+matrix_mult(make_rotX(math.pi/4), edges)
+matrix_mult(make_rotY(math.pi/4), edges)
+matrix_mult(make_translate(250, 250, 0), edges)
 
 draw_polygons(edges, screen, color)
 
